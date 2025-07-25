@@ -1,0 +1,59 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // or mysql
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String?
+  password    String 
+  resumes     Resume[]
+  jdMatches   JDMatch[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Resume {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  title       String
+  fileUrl     String // If uploaded
+  content     String  // Extracted text (parsed from PDF or DOC)
+  parsedJSON  Json?
+  createdAt   DateTime @default(now())
+  jdMatches   JDMatch[]
+}
+
+model JD {
+  id          String   @id @default(uuid())
+  company     String
+  title       String
+  description String
+  parsedJSON  Json?
+  createdAt   DateTime @default(now())
+  jdMatches   JDMatch[]
+}
+
+model JDMatch {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+
+  resume      Resume   @relation(fields: [resumeId], references: [id])
+  resumeId    String
+
+  jd          JD       @relation(fields: [jdId], references: [id])
+  jdId        String
+
+  score       Float    // Matching score, like 0.76
+  feedback    String?  // Optional AI feedback
+  createdAt   DateTime @default(now())
+}
