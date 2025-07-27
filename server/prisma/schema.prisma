@@ -26,7 +26,7 @@ model Resume {
   userId      String
   title       String
   fileUrl     String // If uploaded
-  content     String  // Extracted text (parsed from PDF or DOC)
+  content     String?  // Extracted text (parsed from PDF or DOC)
   parsedJSON  Json?
   createdAt   DateTime @default(now())
   jdMatches   JDMatch[]

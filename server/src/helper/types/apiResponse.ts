@@ -1,6 +1,6 @@
-export interface ApiResponse<T=undefined>{
+export interface ApiResponse{
     success:boolean
     message:string
-    error?:string | string[] |any
-    data?:T | any
+    error?:any
+    data?: any
 }

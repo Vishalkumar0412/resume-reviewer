@@ -9,6 +9,6 @@ router.post('/signup',signupUser)
 router.post('/login',loginUser)
 router.post('/logout',authMiddleware,logout)
 router.get('/',authMiddleware, getProfile )
-router.post('/upload-resume', authMiddleware, upload.single('resume'),uploadResume)
+router.post('/upload-resume', authMiddleware, upload.single('file'),uploadResume)
 
 export default router;
