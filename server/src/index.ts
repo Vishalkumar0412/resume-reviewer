@@ -10,6 +10,7 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 8000;
 app.use(express.json())
+app.use(express.text())
 app.use(cookieParser())
 app.use('/api/v1',router);
 

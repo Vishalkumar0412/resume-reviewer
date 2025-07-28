@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "JD" ALTER COLUMN "company" DROP NOT NULL;
