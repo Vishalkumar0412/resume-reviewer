@@ -1,6 +1,7 @@
 import express, { Express, Request, Response , Application } from 'express';
 import dotenv from 'dotenv';
 import router from './routes';
+import cors from 'cors'
 
 import cookieParser from 'cookie-parser'
 
@@ -12,6 +13,10 @@ const port = process.env.PORT || 8000;
 app.use(express.json())
 app.use(express.text())
 app.use(cookieParser())
+app.use(cors({
+  credentials:true,
+  origin:process.env.CLIENT_URL
+}))
 app.use('/api/v1',router);
 
 

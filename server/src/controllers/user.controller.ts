@@ -6,17 +6,20 @@ import bcrypt from 'bcrypt'
 import { loginSchema, signupSchema } from "../helper/schemas/user.schema";
 import { genrateToken } from "../utills/genrateToken";
 import { authenticatedRequest } from "../helper/types/authenticatedRequest";
+import { parse } from "dotenv";
 
 const prisma=new PrismaClient()
 
 export const signupUser = async (req: Request, res:Response<ApiResponse>) : Promise<Response<ApiResponse>> => {
   const userData = req.body;
     const parsed=signupSchema.safeParse(userData)
+    console.log(parsed.error);
+    
     if(parsed.error){
         return res.status(400).json({
             success:false,
             message:"validation error",
-            error:parsed.error.flatten().fieldErrors
+            error:parsed.error
         })
     }
     const {name,email,password}=parsed.data;
@@ -45,7 +48,7 @@ export const signupUser = async (req: Request, res:Response<ApiResponse>) : Prom
         return res.status(500).json({
             success:false,
             message:"User can't signup",
-            error:error.data.message
+            error:error
 
     })
   
@@ -54,8 +57,10 @@ export const signupUser = async (req: Request, res:Response<ApiResponse>) : Prom
 export const loginUser=async(req:Request , res:Response<ApiResponse>)=>{
     const userData=req.body;
     const parsed=loginSchema.safeParse(userData);
+   
+    
     if(parsed.error){
-        return res.status(400).json({message:"Validation error",success:false,error:parsed.error.flatten().fieldErrors})
+        return res.status(400).json({message:"Validation error",success:false,error:parsed.error})
     }try {
         const {email,password}=parsed.data;
         const user=await prisma.user.findUnique({where:{email}});

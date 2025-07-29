@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useSignupMutation } from "@/lib/api"
+import Link from "next/link"
 import { useState } from "react"
 
 export default function Login() {
@@ -20,15 +22,19 @@ export default function Login() {
     email:"",
     password:""
   });
+  const [signup, { isLoading: signupLoading }] = useSignupMutation();
 
   const handleSignup=async(e:React.FormEvent)=>{
-      e.preventDefault();
-      console.log(formData);
+        e.preventDefault();
+      
+       const res= await signup(formData);
+       
+       console.log(res);
       
 
   }
   return (
-    <div className="flex justify-center items-center h-[80vh] bg-gradient-to-r from-green-50 to-sky-100">
+    <div className="flex justify-center items-center h-[100vh] bg-gradient-to-r from-green-50 to-sky-100">
     <Card className="w-full max-w-sm h-fit">
       <CardHeader>
         <CardTitle>Signup to create your account</CardTitle>
@@ -36,7 +42,9 @@ export default function Login() {
           Smarter tools, just a signup away.
         </CardDescription>
         <CardAction>
+          <Link href="/login">
           <Button variant="link">Login</Button>
+          </Link>
         </CardAction>
       </CardHeader>
         <form onSubmit={handleSignup}>
@@ -84,9 +92,15 @@ export default function Login() {
         <Button type="submit" className="w-full" >
           Signup
         </Button>
+
+
         {/* <Button variant="outline" className="w-full">
           Login with Google
-          </Button> */}
+          </Button> */
+          
+        }
+
+
       </CardFooter>
           </form>
     </Card>

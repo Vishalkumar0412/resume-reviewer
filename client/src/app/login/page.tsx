@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useLoginMutation } from "@/lib/api"
+import Link from "next/link"
 import { useState } from "react"
 
 export default function Login() {
@@ -20,14 +22,19 @@ export default function Login() {
     password:""
   });
 
+  const [login, {isLoading,error}]=useLoginMutation()
+
   const handleLogin=async(e:React.FormEvent)=>{
       e.preventDefault();
-      console.log(formData);
+      const res= await login(formData)
+      console.log(res);
+      
+      
       
 
   }
   return (
-    <div className="flex justify-center items-center h-[80vh] bg-gradient-to-r from-green-50 to-sky-100">
+    <div className="flex justify-center items-center h-[100vh] bg-gradient-to-r from-green-50 to-sky-100">
     <Card className="w-full max-w-sm h-fit">
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
@@ -35,7 +42,9 @@ export default function Login() {
           Enter your email below to login to your account
         </CardDescription>
         <CardAction>
+          <Link href="/signup">
           <Button variant="link">Sign Up</Button>
+          </Link>
         </CardAction>
       </CardHeader>
         <form onSubmit={handleLogin}>
