@@ -11,28 +11,45 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useSignupMutation } from "@/lib/api"
+import { useSignupMutation } from "@/lib/redux/api/authApi"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+
+
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
 export default function Login() {
+
+  const { user } = useSelector((store: any) => store.auth);
+
+     useEffect(()=>{
+      if(user){
+        router.push ('/profile')
+      }
+     },[user])
 
   const [formData,setFromData]=useState({
     name:"",
     email:"",
     password:""
   });
-  const [signup, { isLoading: signupLoading }] = useSignupMutation();
+  const router= useRouter()
+
+  const [signup, { isLoading ,isSuccess}] = useSignupMutation();
+  console.log(isSuccess);
+  
 
   const handleSignup=async(e:React.FormEvent)=>{
-        e.preventDefault();
-      
-       const res= await signup(formData);
-       
-       console.log(res);
-      
-
+        e.preventDefault();      
+       const res= await signup(formData);     
   }
+  useEffect(()=>{
+    if(isSuccess){
+      router.push('/login')
+    }
+  },[isSuccess])
   return (
     <div className="flex justify-center items-center h-[100vh] bg-gradient-to-r from-green-50 to-sky-100">
     <Card className="w-full max-w-sm h-fit">
@@ -89,8 +106,10 @@ export default function Login() {
      
       </CardContent>
       <CardFooter className="flex-col gap-2 mt-4">
-        <Button type="submit" className="w-full" >
-          Signup
+        <Button type="submit" className="w-full" disabled={isLoading} >
+         {
+          isLoading ? <Loader2 className="h-2 w-2 animate-spin"/>: "Signup"
+         } 
         </Button>
 
 

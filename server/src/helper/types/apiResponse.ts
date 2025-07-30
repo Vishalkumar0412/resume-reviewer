@@ -2,5 +2,7 @@ export interface ApiResponse{
     success:boolean
     message:string
     error?:any
-    data?: any
+    user?:any
+    data?:any
+   
 }

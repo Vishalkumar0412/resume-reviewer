@@ -69,7 +69,7 @@ export const uploadResume = async (req: any, res: Response<ApiResponse>) => {
     return res.status(200).json({
       message: "Resume uploaded and processed successfully",
       success: true,
-      data: { resume },
+      data:resume
     });
   } catch (error: any) {
     console.error("Resume upload error:", error);

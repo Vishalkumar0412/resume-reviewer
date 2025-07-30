@@ -114,7 +114,8 @@ export const getProfile =async (req:any ,res:Response<ApiResponse>)=>{
        return res.status(200).json({
         message:"User fetched",
         success:true,
-        data :safeUser
+        user:safeUser,
+        
        })
 
     } catch (error) {
