@@ -13,12 +13,16 @@ import {
 import { useSelector } from "react-redux";
 import { Files, LayoutDashboard, LogOut, User } from "lucide-react";
 import useIsClient from "@/hooks/useIsClient";
+import { useLogoutMutation } from "@/lib/redux/api/authApi";
+import { useRouter } from "next/navigation";
+
 
 const Navbar = () => {
   const isClient = useIsClient();
+  const router= useRouter()
   const { user } = useSelector((store: any) => store.auth);
+  const [logout,{isSuccess, error}]= useLogoutMutation()
   if(!isClient) return null;
-
   console.log(user);
 
   return (
@@ -43,7 +47,10 @@ const Navbar = () => {
               <Link href='/profile'>  <DropdownMenuItem><User/>Profile</DropdownMenuItem> </Link>
               <Link href='/uploads'>   <DropdownMenuItem><Files /> Uploads</DropdownMenuItem></Link>
            {user.role== "ADMIN" &&   <Link href='/dashboard'>  <DropdownMenuItem><LayoutDashboard /> Dashboard</DropdownMenuItem></Link>}
-                <DropdownMenuItem><LogOut/> Logout </DropdownMenuItem>
+                <DropdownMenuItem onClick={()=>{
+                  logout();
+                  router.push('/')
+                  }}><LogOut/> Logout </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </>

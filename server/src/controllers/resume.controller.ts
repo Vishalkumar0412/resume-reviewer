@@ -192,3 +192,30 @@ export const matchJDToResume = async (req: any, res: Response<ApiResponse>) => {
     });
   }
 };
+
+
+export const getResumes=async(req:any, res:Response<ApiResponse>)=>{
+      const userId=req.user.id;
+      try {
+        const resumes =await prisma.resume.findMany({where:{
+          userId
+        }})
+        if(!resumes){
+          return res.status(404).json({
+            message:"Resumes not found",
+            success:false
+          })
+        }
+        return res.status(200).json({message:"Resumes Fetched successfully",
+          success:true,
+          data:resumes
+        })
+      } catch (error) {
+        return res.status(500).json({
+          message:"Failed to fetch resumes",
+          success:false,
+          error
+        })
+      }
+
+}

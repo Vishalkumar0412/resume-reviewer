@@ -4,13 +4,13 @@ import { userLoggedIn } from '../slice/authSlice';
  export const authApi = createApi({
   reducerPath: 'authApi',
  baseQuery:fetchBaseQuery({
-    baseUrl:`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1`,
+    baseUrl:`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user`,
     credentials:"include"
  }),
   endpoints: (builder) => ({
         signup:builder.mutation<{user:string},{email:string, name:string, password:string}>({
             query:(credentials)=>({
-                url:"/user/signup",
+                url:"/signup",
                 method:"POST",
                 body: credentials
 
@@ -19,7 +19,7 @@ import { userLoggedIn } from '../slice/authSlice';
 
          login: builder.mutation<{ user: string }, { email: string; password: string }>({
             query:(data)=>({
-                url:"/user/login",
+                url:"/login",
                 method:"POST",
                 body:data
             }),
@@ -35,7 +35,7 @@ import { userLoggedIn } from '../slice/authSlice';
          }),
          getProfile:builder.query({
             query:()=>({
-                url:'/user/',
+                url:'/',
                 method:"GET"
             }),
             async onQueryStarted(_,{queryFulfilled,dispatch}){
@@ -48,8 +48,23 @@ import { userLoggedIn } from '../slice/authSlice';
                 }
             }
 
+         }),
+         logout:builder.mutation({
+            query:()=>({
+                url:'/logout',
+                method:"POST"
+            }),
+            async onQueryStarted(_,{queryFulfilled,dispatch}){
+                try {
+                    await queryFulfilled;
+                    dispatch(userLoggedIn({user:null}))
+                } catch (error) {
+                    console.log(error);
+                    
+                }
+            }
          })
   }),
 })
 
-export const {useSignupMutation,useLoginMutation,useGetProfileQuery}=authApi
+export const {useSignupMutation,useLoginMutation,useGetProfileQuery,useLogoutMutation}=authApi
