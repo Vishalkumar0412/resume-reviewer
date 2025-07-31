@@ -42,4 +42,4 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
  })
 
 })
-export const {}=resumeApi
+export const {useGetResumesQuery,useUploadJDMutation,useUploadResumeMutation,useReviewResumeMutation}=resumeApi

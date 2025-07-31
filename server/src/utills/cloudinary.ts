@@ -21,7 +21,7 @@ const storage = new CloudinaryStorage({
 
     return {
       folder: 'resumes',
-      allowed_formats: ['pdf', 'doc', 'docx'],
+      allowed_formats: ['pdf'],
       resource_type: 'raw',
      public_id: `${Date.now()}-${baseName}` // ✅ correct
 

@@ -8,12 +8,10 @@ const Profile = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
-        <div className="flex flex-col items-center">
-          <img
-            src={user?.avatar || '/default-avatar.png'}
-            alt="Profile Avatar"
-            className="w-24 h-24 rounded-full shadow mb-4"
-          />
+        <div className="flex flex-col items-center  justify-center ">
+         <div className='flex h-20 w-20 just text-4xl justify-center text-white rounded-full bg-blue-300 items-center'>
+            {user?.name.split('')[0].toUpperCase()}
+         </div>
           <h2 className="text-2xl font-bold mb-1">{user?.name || 'Your Name'}</h2>
           <p className="text-gray-500 mb-4">{user?.email || 'your.email@example.com'}</p>
           <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
