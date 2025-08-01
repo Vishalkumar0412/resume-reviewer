@@ -21,6 +21,7 @@ model User {
   password    String 
   resumes     Resume[]
   jdMatches   JDMatch[]
+  jds         JD[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -39,6 +40,8 @@ model Resume {
 
 model JD {
   id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
   company     String?
   title       String?
   description String

@@ -37,9 +37,21 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
             method:"POST",
             body:obj
         })
+     }),
+     getJds:builder.query({
+        query:()=>({
+            url:"/get-jds",
+            method:"GET"
+        })
+     }),
+     getReports:builder.query({
+        query:()=>({
+            url:"/get-reports",
+            method:"GET"
+        })
      })
 
  })
 
 })
-export const {useGetResumesQuery,useUploadJDMutation,useUploadResumeMutation,useReviewResumeMutation}=resumeApi
+export const {useGetResumesQuery,useGetReportsQuery,useGetJdsQuery,useUploadJDMutation,useUploadResumeMutation,useReviewResumeMutation}=resumeApi

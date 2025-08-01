@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSelector } from "react-redux";
-import { Files, LayoutDashboard, LogOut, User } from "lucide-react";
+import { Files, LayoutDashboard, LogOut, Proportions, User } from "lucide-react";
 import useIsClient from "@/hooks/useIsClient";
 import { useLogoutMutation } from "@/lib/redux/api/authApi";
 import { useRouter } from "next/navigation";
@@ -46,6 +46,7 @@ const Navbar = () => {
                 <DropdownMenuSeparator />
               <Link href='/profile'>  <DropdownMenuItem><User/>Profile</DropdownMenuItem> </Link>
               <Link href='/uploads'>   <DropdownMenuItem><Files /> Uploads</DropdownMenuItem></Link>
+              <Link href='/reports'>   <DropdownMenuItem><Proportions /> Reports</DropdownMenuItem></Link>
            {user.role== "ADMIN" &&   <Link href='/dashboard'>  <DropdownMenuItem><LayoutDashboard /> Dashboard</DropdownMenuItem></Link>}
                 <DropdownMenuItem onClick={()=>{
                   logout();

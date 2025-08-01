@@ -83,6 +83,7 @@ export const uploadResume = async (req: any, res: Response<ApiResponse>) => {
 
 export const uploadJD = async (req: any, res: Response<ApiResponse>) => {
   const jd = req.body;
+  const userId=req.user.id
 
   if (!jd) {
     return res.status(400).json({
@@ -112,9 +113,11 @@ export const uploadJD = async (req: any, res: Response<ApiResponse>) => {
     const jdRes: any = await prisma.jD.create({
       data: {
         title,
+        userId,
         company,
         description,
         parsedJSON,
+
       },
     });
 
@@ -218,4 +221,85 @@ export const getResumes=async(req:any, res:Response<ApiResponse>)=>{
         })
       }
 
+}
+export const fetchJDS= async(req:any,res:Response<ApiResponse>)=>{
+  const userId:any=req.user.id;
+  
+  if(!userId){
+    return res.status(400).json({
+      success:false,
+      message:"user not authonticated"
+    })
+   
+  }
+   try {
+      const jds=await prisma.jD.findMany({
+        where:{
+          userId:userId
+        }
+      })
+
+      if(!jds){
+         return res.status(404).json({
+      success:false,
+      message:"jds not found"
+    })
+     
+  }
+
+   return res.status(200).json({
+      success:true,
+      message:"jds fetched successfully",
+      data:jds
+    })
+    } catch (error) {
+       return res.status(500).json({
+      success:false,
+      message:"jds can't fetched"
+    })
+    }
+}
+export const fetchJDMatches=async (req:any,res:Response<ApiResponse>)=>{
+  const userId=req.user.id;
+  if(!userId){
+    return res.status(400).json({
+      message:"User is not authonticated",
+      success:false
+    })
+  }
+  try {
+    const jDMatchs= await prisma.jDMatch.findMany({
+      where:{
+        userId 
+      },
+      include:{
+        resume:{
+          select:{title:true}
+        },
+        jd:{
+          select:{title:true}
+        }
+      },
+      orderBy:{
+        createdAt:"desc"
+      }
+    })
+    if(!jDMatchs){
+      return res.status(400).json({
+        message:"No report found",
+        success:false
+      })
+    }
+    return res.status(200).json({
+      message:"Reports fetched successfully",
+      success:true,
+      data:jDMatchs
+    })
+  } catch (error) {
+    return res.status(500).json({
+      message:"Failed to fetched Reports",
+      success:false,
+      error
+    })
+  }
 }
