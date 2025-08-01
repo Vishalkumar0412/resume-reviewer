@@ -17,7 +17,7 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     const originalName = file.originalname;
     const extension = originalName.split('.').pop(); // e.g., 'pdf'
-    const baseName = originalName.split('.').slice(0, -1).join('.'); // handles dots in filename
+    const baseName = originalName.split('.').slice(0, -1).join('.');
 
     return {
       folder: 'resumes',
