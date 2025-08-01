@@ -14,6 +14,7 @@ const prisma = new PrismaClient();
 
 export const uploadResume = async (req: any, res: Response<ApiResponse>) => {
   const user = req.user;
+  const userId=user.id;
 
   try {
     if (!user) {
@@ -30,6 +31,16 @@ export const uploadResume = async (req: any, res: Response<ApiResponse>) => {
       });
     }
 
+    const resumes= await prisma.resume.findMany({where:{
+      userId
+    }})
+
+    if(resumes.length>5){
+      return res.status(400).json({
+        message:"Resume upload limit is 5 exceed delete one of them",
+        success:false
+      })
+    }
     const file = req.file as Express.Multer.File;
     const fileUrl = file.path; // This is Cloudinary URL
 
@@ -84,6 +95,7 @@ export const uploadResume = async (req: any, res: Response<ApiResponse>) => {
 export const uploadJD = async (req: any, res: Response<ApiResponse>) => {
   const jd = req.body;
   const userId=req.user.id
+  
 
   if (!jd) {
     return res.status(400).json({

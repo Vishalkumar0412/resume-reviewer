@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Uploads() {
   return (
-    <div className="flex flex-col  mt-16 bg-white sm:h-[90vh] md:min-h-[90vh] align-middle ">
+    <div className="flex flex-col  mt-16 bg-white sm:h-[90vh] max-h-screen  md:min-h-[90vh] align-middle ">
       <Tabs
         defaultValue="resumes"
         className="px-6 py-5 m-2  h-full  "
