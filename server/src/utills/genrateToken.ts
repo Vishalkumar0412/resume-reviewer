@@ -8,7 +8,7 @@ export const genrateToken = async (
   const token = jwt.sign(user, process.env.JWT_SECRET!);
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   return res.status(200).json({

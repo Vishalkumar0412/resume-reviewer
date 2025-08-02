@@ -34,5 +34,5 @@ app.get('/test', (req: Request, res: Response) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running at ${process.env.CLIENT_URL}:${port}`);
+  console.log(`Server is running at ${port}`);
 });
