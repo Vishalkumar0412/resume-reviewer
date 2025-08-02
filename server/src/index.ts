@@ -18,15 +18,12 @@ app.use(cookieParser());
 const allowedOrigin = process.env.CLIENT_URL || '*';
 console.log('Allowed Origin:', allowedOrigin);
 
-app.use(cors())
+// app.use(cors())
 
-// app.use(cors({
-
-
-
-//   origin: allowedOrigin,
-//   credentials: true,
-// }));
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true,
+}));
 
 // Routes
 app.use('/api/v1', router);
@@ -37,5 +34,5 @@ app.get('/test', (req: Request, res: Response) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running at ${process.env.CLIENT_URL}:${port}`);
 });
