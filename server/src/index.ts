@@ -1,29 +1,36 @@
-import express, { Express, Request, Response , Application } from 'express';
+import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import router from './routes';
-import cors from 'cors'
-
-import cookieParser from 'cookie-parser'
-
 
 dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
-app.use(express.json())
-app.use(express.text())
-app.use(cookieParser())
-console.log(process.env.CLIENT_URL);
+
+// Middlewares
+app.use(express.json());
+app.use(express.text());
+app.use(cookieParser());
+
+// CORS setup
+const allowedOrigin = process.env.CLIENT_URL || '*';
+console.log('Allowed Origin:', allowedOrigin);
 
 app.use(cors({
-  credentials:true,
-  origin:process.env.CLIENT_URL
-}))
-app.use('/api/v1',router);
-app.get('test', (req: Request, res: Response) => {
-  res.send('Server is running');  
+  origin: allowedOrigin,
+  credentials: true,
+}));
+
+// Routes
+app.use('/api/v1', router);
+
+app.get('/test', (req: Request, res: Response) => {
+  res.send('Server is running');
 });
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });

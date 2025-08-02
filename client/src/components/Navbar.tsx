@@ -31,7 +31,7 @@ const Navbar = () => {
     <header className="h-16 fixed w-full z-1 top-0 left-0 bg-white shadow-md flex items-center px-6 py-2 justify-between">
       <Link href="/">
         <div>
-          <Image src="./logo.png" alt="" className="h-14" />
+          {/* <Image src="./logo.png" alt="" className="h-14" /> */}
         </div>
       </Link>
       <div className="flex gap-1 mr-12">

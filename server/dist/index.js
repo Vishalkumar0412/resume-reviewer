@@ -14,11 +14,15 @@ const port = process.env.PORT || 8000;
 app.use(express_1.default.json());
 app.use(express_1.default.text());
 app.use((0, cookie_parser_1.default)());
+console.log(process.env.CLIENT_URL);
 app.use((0, cors_1.default)({
     credentials: true,
     origin: process.env.CLIENT_URL
 }));
 app.use('/api/v1', routes_1.default);
+app.get('test', (req, res) => {
+    res.send('Server is running');
+});
 app.listen(port, () => {
     console.log(`Server is Fire at http://localhost:${port}`);
 });

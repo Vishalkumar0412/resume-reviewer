@@ -49,11 +49,11 @@ const About = () => {
           } items-center gap-8`}
         >
           <div className="md:w-1/2">
-            <Image
+            {/* <Image
               src={item.image}
               alt={item.title}
               className="w-full max-h-[350px] object-contain rounded-2xl shadow-md"
-            />
+            /> */}
           </div>
           <div className="md:w-1/2 space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
