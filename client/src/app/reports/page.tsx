@@ -7,16 +7,12 @@ import {
   useReviewResumeMutation,
 } from "@/lib/redux/api/resumeApi";
 
-import { Input } from "@/components/ui/input";
 
 import {
   Sheet,
-  SheetClose,
+
   SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
+
   SheetTrigger,
 } from "@/components/ui/sheet";
 
@@ -49,25 +45,37 @@ import {
 } from "@/components/ui/select";
 
 import { Label } from "@/components/ui/label";
-import { File, Plus, Proportions } from "lucide-react";
+import { File, Proportions } from "lucide-react";
 import { useTimeAgo } from "@/hooks/useTimeAgo";
 import ReportLoading from "@/components/ReportLoading";
 import ReportContent from "@/components/ReportContent"; // Replace with mobile-optimized if needed
 
 const Reports = () => {
-  const { data: jdData, isSuccess: jdIsSuccess } = useGetJdsQuery();
-  const { data: resumeData, isSuccess: resumeIsSuccess } = useGetResumesQuery();
+  const { data: jdData, isSuccess: jdIsSuccess } = useGetJdsQuery(
+    {}
+  );
+  const { data: resumeData, isSuccess: resumeIsSuccess } = useGetResumesQuery({});
   const {
     data: reportsData,
     isSuccess: reportIsSuccess,
     refetch,
-  } = useGetReportsQuery();
+  } = useGetReportsQuery({});
 
   const [msg, setMsg] = useState("");
-  const [jds, setJds] = useState<any[]>([]);
-  const [resumes, setResumes] = useState<any[]>([]);
-  const [reports, setReports] = useState<any[]>([]);
-  const [selectedReport, setSelectedReport] = useState<any | null>(null);
+  type Resume = { id: string; title: string };
+  type JD = { id: string; title: string };
+  type Report = {
+    id: string;
+    resume: Resume;
+    createdAt: string;
+    // add other fields as needed
+  };
+
+  const [jds, setJds] = useState<JD[]>([]);
+  const timeAgo=useTimeAgo()
+  const [resumes, setResumes] = useState<Resume[]>([]);
+  const [reports, setReports] = useState<Report[]>([]);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [selectedResume, setSelectedResume] = useState<string | null>(null);
   const [selectedJd, setSelectedJd] = useState<string | null>(null);
 
@@ -77,17 +85,17 @@ const Reports = () => {
   useEffect(() => {
     if (jdIsSuccess && jdData) setJds(jdData.data);
     if (resumeIsSuccess && resumeData) setResumes(resumeData.data);
-  }, [jdIsSuccess, resumeIsSuccess]);
+  }, [jdIsSuccess, resumeIsSuccess,resumeData,jdData]);
 
   useEffect(() => {
     if (isSuccess && data) {
       setMsg(data.message);
       refetch();
       setSelectedReport(
-        reports.find((report) => report?.id === data?.data?.id)
+        reports.find((report) => report?.id === data?.data?.id) || null
       );
     }
-  }, [isSuccess]);
+  }, [isSuccess,data,refetch,reports]);
 
   useEffect(() => {
     if (reportIsSuccess && reportsData) {
@@ -96,7 +104,7 @@ const Reports = () => {
         setSelectedReport(reportsData.data[0]);
       }
     }
-  }, [reportIsSuccess, reportsData]);
+  }, [reportIsSuccess, reportsData, selectedReport]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -119,7 +127,7 @@ const Reports = () => {
             <div className="flex flex-col  h-full gap-3 items-center p-6">
               <div className="flex items-center gap-3 flex-col">
                 <h2 className="text-3xl font-bold text-blue-600">
-                  Recent Reports
+                  Recent Reports 
                 </h2>
                 <div>
                   <Dialog>
@@ -147,7 +155,7 @@ const Reports = () => {
                                 <SelectGroup>
                                   <SelectLabel>Resumes</SelectLabel>
                                   {resumes.length === 0 ? (
-                                    <SelectItem disabled>
+                                    <SelectItem disabled value="none">
                                       No Resume found
                                     </SelectItem>
                                   ) : (
@@ -171,7 +179,7 @@ const Reports = () => {
                                 <SelectGroup>
                                   <SelectLabel>Job Descriptions</SelectLabel>
                                   {jds.length === 0 ? (
-                                    <SelectItem disabled>
+                                    <SelectItem disabled value="none">
                                       No JD found
                                     </SelectItem>
                                   ) : (
@@ -222,7 +230,7 @@ const Reports = () => {
                           {report.resume.title}
                         </p>
                         <p className="text-[0.65rem] text-gray-600">
-                          {useTimeAgo(report.createdAt)}
+                          {timeAgo(report.createdAt)}
                         </p>
                       </div>
                     </div>
@@ -279,7 +287,7 @@ const Reports = () => {
                         <SelectGroup className="">
                           <SelectLabel>Resumes</SelectLabel>
                           {resumes.length === 0 ? (
-                            <SelectItem disabled>No Resume found</SelectItem>
+                            <SelectItem disabled value="none">No Resume found</SelectItem>
                           ) : (
                             resumes.map((r) => (
                               <SelectItem key={r.id} value={r.id}>
@@ -301,7 +309,7 @@ const Reports = () => {
                         <SelectGroup>
                           <SelectLabel>Job Descriptions</SelectLabel>
                           {jds.length === 0 ? (
-                            <SelectItem disabled>No JD found</SelectItem>
+                            <SelectItem disabled value="none">No JD found</SelectItem>
                           ) : (
                             jds.map((jd) => (
                               <SelectItem key={jd.id} value={jd.id}>
@@ -349,7 +357,7 @@ const Reports = () => {
                       {report.resume.title}
                     </p>
                     <p className="text-[0.6rem] text-gray-500">
-                      {useTimeAgo(report.createdAt)}
+                      {timeAgo(report.createdAt)}
                     </p>
                   </div>
                 </div>

@@ -12,5 +12,10 @@ export const store = configureStore({
 const initalizeApp=async()=>{
     await store.dispatch(authApi.endpoints.getProfile.initiate({},{forceRefetch:true}))
 }
+
+
+
 initalizeApp();
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

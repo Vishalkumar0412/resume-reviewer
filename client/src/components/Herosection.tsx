@@ -26,7 +26,7 @@ function Herosection() {
         }}
         className="text-2xl px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
       >
-       With ResumeX, nothing's missed. Every word matters. Every resume is
+       With ResumeX, nothing&#39;s missed. Every word matters. Every resume is
         <Highlight className="text-black dark:text-white">
            reviewed, not repeated
         </Highlight>

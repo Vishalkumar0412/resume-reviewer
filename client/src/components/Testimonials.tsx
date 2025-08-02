@@ -2,8 +2,9 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { testimonialsData } from "@/helper/data/data";
+import Image from "next/image";
 
-const containerVariants:any = {
+const containerVariants = {
   hidden: {},
   show: {
     transition: {
@@ -12,12 +13,12 @@ const containerVariants:any = {
   },
 };
 
-const cardVariants :any = {
+const cardVariants  = {
   hidden: { opacity: 0, y: 30 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 60, damping: 15 },
+    transition: { type: "spring" as const, stiffness: 60, damping: 15 },
   },
 };
 
@@ -38,26 +39,30 @@ const Testimonials = () => {
       </h2>
 
       <div className="grid gap-8 md:grid-cols-3 max-w-7xl mx-auto">
-        {testimonialsData.map((testimonial :any, idx: any) => (
+        {testimonialsData.map((testimonial: { image: string; name: string; role: string; feedback: string }, idx: number) => (
           <motion.div
             key={idx}
             variants={cardVariants}
             className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
           >
-            <div className="flex items-center mb-4 space-x-4">
-              <img
-                src={testimonial.image}
-                alt={testimonial.name}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div>
-                <h3 className="font-semibold text-gray-800">
-                  {testimonial.name}
-                </h3>
-                <p className="text-sm text-gray-500">{testimonial.role}</p>
+            <>
+              <div className="flex items-center gap-4 mb-4">
+                <Image
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <h3 className="font-semibold text-gray-800">
+                    {testimonial.name}
+                  </h3>
+                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                </div>
               </div>
-            </div>
-            <p className="text-gray-600 text-base">"{testimonial.feedback}"</p>
+              <p className="text-gray-600 text-base">&quot;{testimonial.feedback}&quot;</p>
+            </>
           </motion.div>
         ))}
       </div>

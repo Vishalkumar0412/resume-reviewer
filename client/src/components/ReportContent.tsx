@@ -2,7 +2,7 @@ import React from 'react';
 import { FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const ReportContent = ({ report }) => {
+const ReportContent = ({ report }:any) => {
   if (!report) {
     return <div className="text-center mt-10 text-gray-500">Loading...</div>;
   }
@@ -94,7 +94,7 @@ const ReportContent = ({ report }) => {
       >
         <h3 className="text-sm sm:text-md font-semibold mb-2 text-red-600">Mistakes Found</h3>
         <ul className="list-disc pl-4 sm:pl-5 text-sm text-gray-700 space-y-1">
-          {report?.mistakes?.map((item, index) => (
+          {report?.mistakes?.map((item :any, index:any) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
@@ -110,7 +110,7 @@ const ReportContent = ({ report }) => {
         <div>
           <h3 className="text-sm font-semibold text-green-600 mb-2">Matched Keywords</h3>
           <div className="flex flex-wrap gap-2 text-xs sm:text-sm">
-            {report.keywordMatch.map((kw, index) => (
+            {report.keywordMatch.map((kw:any, index:any) => (
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -126,7 +126,7 @@ const ReportContent = ({ report }) => {
         <div>
           <h3 className="text-sm font-semibold text-red-600 mb-2">Missing Keywords</h3>
           <div className="flex flex-wrap gap-2 text-xs sm:text-sm">
-            {report?.keywordMiss?.map((kw, index) => (
+            {report?.keywordMiss?.map((kw:any, index:any) => (
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

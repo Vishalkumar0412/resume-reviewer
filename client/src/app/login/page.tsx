@@ -12,6 +12,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useLoginMutation } from "@/lib/redux/api/authApi"
+import { RootState } from "@/lib/redux/store"
+
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -20,29 +22,29 @@ import { useSelector } from "react-redux"
 
 export default function Login() {
   const router=useRouter()
-   const { user } = useSelector((store: any) => store.auth);
+   const { user } = useSelector((store:RootState ) => store.auth);
    useEffect(()=>{
     if(user){
       router.push ('/profile')
     }
-   },[user])
+   },[user, router])
 
   const [formData,setFromData]=useState({
     email:"",
     password:""
   });
 
-  const [login, {isLoading,error,isSuccess}]=useLoginMutation()
+  const [login, {isLoading,isSuccess}]=useLoginMutation()
 
   const handleLogin=async(e:React.FormEvent)=>{
       e.preventDefault();
-      const res= await login(formData) 
+     await login(formData) 
   }
   useEffect(()=>{
     if(isSuccess){
       router.push('/profile')
     }
-  },[isSuccess])
+  },[isSuccess,router])
   return (
     <div className="flex justify-center items-center h-[100vh] bg-gradient-to-r from-green-50 to-sky-100">
     <Card className="w-full max-w-sm h-fit">

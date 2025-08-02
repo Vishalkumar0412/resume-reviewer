@@ -9,7 +9,7 @@ const ReportLoading = () => {
           Generating Your Report
         </h2>
         <p className="text-sm text-gray-500 text-center max-w-xs">
-          We're analyzing your resume and matching it with the job description. This won’t take long.
+          We&#39;re analyzing your resume and matching it with the job description. This won’t take long.
         </p>
       </div>
     </div>

@@ -20,7 +20,7 @@ import { FileUser, Trash, Upload } from 'lucide-react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card';
 import dayjs from 'dayjs';
 const Resumes = () => {
-    const { data, isLoading, isSuccess, refetch }: any = useGetResumesQuery();
+    const { data,  isSuccess, refetch } = useGetResumesQuery({});
   const resumes = isSuccess
     ? [...(data?.data || [])].sort(
         (a, b) =>
@@ -32,11 +32,11 @@ const Resumes = () => {
   const [uploadProcess, setUploadProcess] = useState(0);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+
 
 
     const handleFileUpload = async (files: File[]) => {
-        setFiles(files);
+      
         const file = files?.[0];
         if (!file) return;
     
@@ -73,9 +73,9 @@ const Resumes = () => {
             setSuccess(true);
             refetch();
           }
-        } catch (error: any) {
-          console.error(error);
-          setMessage(error?.response?.data?.message || "Upload failed.");
+        } catch (error:any) {
+  
+          setMessage(error?.data?.message || "Upload failed.");
           setSuccess(false);
         } finally {
           setUploadPDFProcess(false);

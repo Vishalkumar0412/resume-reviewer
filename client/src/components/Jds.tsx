@@ -24,9 +24,9 @@ export default function Jds() {
   const [fullJD,setFullJD]=useState('')
  const [uploadJD, { data, isSuccess, isLoading, error }] = useUploadJDMutation();
  const [message,setMessage]=useState('')
- const[jds,setJds]=useState([])
+const [jds, setJds] = useState<unknown[]>([]);
 
- const {data:getJdData,isLoading:getJdIsLoading,isSuccess:getJdSucess,error:getJdError}=useGetJdsQuery()
+ const {data:getJdData,isSuccess:getJdSucess,error:getJdError}=useGetJdsQuery({})
 const handleUpload=async()=>{
     setFullJD(`title=${title} company=${company} jd=${jdText}`)
     await uploadJD(fullJD);
@@ -42,7 +42,7 @@ const handleUpload=async()=>{
     } else if (error) {
       setMessage("Something went wrong while uploading.");
     }
-  }, [isSuccess, isLoading, error]);
+  }, [isSuccess, isLoading, error,data]);
   useEffect(()=>{
     if(getJdSucess&&getJdData){
         setJds(getJdData.data)
@@ -121,20 +121,20 @@ const handleUpload=async()=>{
             No job descriptions uploaded yet.
           </p>
         ) : (
-          jds.map((jd: any) => (
+          jds.map((jd:any) => (
             <div
-              key={jd.id}
+              key={jd?.id}
               className="border border-violet-300 rounded-xl p-4 shadow hover:shadow-md transition-all bg-white"
             >
               <h3 className="text-lg font-semibold text-violet-700">
-                {jd.title}
+                {jd?.title}
               </h3>
               <p className="text-sm text-gray-600">{jd.company}</p>
               <p className="text-xs text-gray-500 mb-2">
-                Uploaded: {dayjs(jd.createdAt).format("DD MMM YYYY, hh:mm A")}
+                Uploaded: {dayjs(jd?.createdAt).format("DD MMM YYYY, hh:mm A")}
               </p>
               <div className="text-sm text-gray-800 whitespace-pre-line line-clamp-6">
-                {jd.description}
+                {jd?.description}
               </div>
             </div>
           ))

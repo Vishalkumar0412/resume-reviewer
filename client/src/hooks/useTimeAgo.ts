@@ -1,7 +1,8 @@
-export function useTimeAgo(dateString : Date) {
-  const now :any = new Date();
-  const past :any = new Date(dateString);
-  const diffMs :any = now - past;
+export function useTimeAgo() {
+  function timeAgo(dateInput: string | number | Date): string{
+    const now = new Date();
+  const past = new Date(dateInput);
+  const diffMs = now.getTime() - past.getTime();
 
   const seconds = Math.floor(diffMs / 1000);
   const minutes = Math.floor(diffMs / (1000 * 60));
@@ -12,4 +13,6 @@ export function useTimeAgo(dateString : Date) {
   if (minutes < 60) return `${minutes}m ago`;
   if (hours < 24) return `${hours}h ago`;
   return `${days}d ago`;
+  }
+  return timeAgo;
 }

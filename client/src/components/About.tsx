@@ -2,6 +2,7 @@
 import { aboutData } from "@/helper/data/data";
 import React, { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import Image from "next/image";
 
 const containerVariants = {
   hidden: {},
@@ -48,7 +49,7 @@ const About = () => {
           } items-center gap-8`}
         >
           <div className="md:w-1/2">
-            <img
+            <Image
               src={item.image}
               alt={item.title}
               className="w-full max-h-[350px] object-contain rounded-2xl shadow-md"
