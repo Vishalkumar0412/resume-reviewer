@@ -13,6 +13,8 @@ const port = process.env.PORT || 8000;
 app.use(express.json())
 app.use(express.text())
 app.use(cookieParser())
+console.log(process.env.CLIENT_URL);
+
 app.use(cors({
   credentials:true,
   origin:process.env.CLIENT_URL
