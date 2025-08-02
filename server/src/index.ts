@@ -20,7 +20,9 @@ app.use(cors({
   origin:process.env.CLIENT_URL
 }))
 app.use('/api/v1',router);
-
+app.get('/test', (req: Request, res: Response) => {
+  res.send('Server is running');  
+});
 
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);
