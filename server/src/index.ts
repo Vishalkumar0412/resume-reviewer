@@ -18,10 +18,15 @@ app.use(cookieParser());
 const allowedOrigin = process.env.CLIENT_URL || '*';
 console.log('Allowed Origin:', allowedOrigin);
 
-app.use(cors({
-  origin: allowedOrigin,
-  credentials: true,
-}));
+app.use(cors())
+
+// app.use(cors({
+
+
+
+//   origin: allowedOrigin,
+//   credentials: true,
+// }));
 
 // Routes
 app.use('/api/v1', router);
