@@ -3,25 +3,25 @@ export const aboutData = [
     title: "Smart Resume Parsing",
     description:
       "ResumeX uses advanced AI to automatically read and understand your resume — extracting skills, education, experience, and more. No manual input, no hassle. Just upload your resume and let the intelligence take over.",
-    image: "/Hero.png",
+    image: "/about1.gif",
   },
   {
     title: "Job Description Matching",
     description:
       "Get real-time compatibility analysis between your resume and job descriptions. ResumeX highlights matched keywords, missing skills, and gives you a match score to know how well you fit.",
-    image: "/jobDes.png",
+    image: "/about2.gif",
   },
   {
     title: "Personalized Improvement Suggestions",
     description:
       "Our AI doesn't just critique — it guides you. From grammar issues to tone mismatches, ResumeX gives you actionable tips on what to improve, fix, or add.",
-    image: "/improve.png",
+    image: "/about3.gif",
   },
   {
     title: "Built for Every Job Seeker",
     description:
       "Whether you’re a student, fresher, or experienced professional, ResumeX is designed to help everyone. No fluff. Just clear, data-backed insights that improve your chances of landing interviews.",
-    image: "/everyone.png",
+    image: "/about4.gif",
   },
 ];
 

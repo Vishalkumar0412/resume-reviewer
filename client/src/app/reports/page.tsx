@@ -49,6 +49,7 @@ import { File, Proportions } from "lucide-react";
 import { useTimeAgo } from "@/hooks/useTimeAgo";
 import ReportLoading from "@/components/ReportLoading";
 import ReportContent from "@/components/ReportContent"; // Replace with mobile-optimized if needed
+import { toast } from "sonner";
 
 const Reports = () => {
   const { data: jdData, isSuccess: jdIsSuccess } = useGetJdsQuery(
@@ -79,7 +80,7 @@ const Reports = () => {
   const [selectedResume, setSelectedResume] = useState<string | null>(null);
   const [selectedJd, setSelectedJd] = useState<string | null>(null);
 
-  const [reviewResume, { data, isSuccess, isLoading }] =
+  const [reviewResume, { data, isSuccess, isLoading ,error}] =
     useReviewResumeMutation();
 
   useEffect(() => {
@@ -89,13 +90,17 @@ const Reports = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      setMsg(data.message);
+
+      toast.success(data.message)     
       refetch();
       setSelectedReport(
         reports.find((report) => report?.id === data?.data?.id) || null
       );
     }
-  }, [isSuccess,data,refetch,reports]);
+    if(error){
+      toast.error(error?.data?.message);
+    }
+  }, [isSuccess,data,refetch,reports,error]);
 
   useEffect(() => {
     if (reportIsSuccess && reportsData) {

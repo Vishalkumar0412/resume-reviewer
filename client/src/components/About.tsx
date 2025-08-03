@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { aboutData } from "@/helper/data/data";
 import React, { useRef } from "react";
 import { motion, useInView } from "motion/react";
@@ -13,7 +13,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants :any = {
+const itemVariants: any = {
   hidden: { opacity: 0, y: 50 },
   show: {
     opacity: 1,
@@ -41,19 +41,18 @@ const About = () => {
       {aboutData.map((item, idx) => (
         <motion.div
           key={idx}
-        variants={itemVariants}  
-
-
+          variants={itemVariants}
           className={`flex flex-col md:flex-row ${
             idx % 2 === 1 ? "md:flex-row-reverse" : ""
           } items-center gap-8`}
         >
-          <div className="md:w-1/2">
-            {/* <Image
+          <div className="relative w-full max-h-[250px] aspect-[4/3]">
+            <Image
               src={item.image}
               alt={item.title}
-              className="w-full max-h-[350px] object-contain rounded-2xl shadow-md"
-            /> */}
+              fill
+              className="object-contain rounded-2xl shadow-md"
+            />
           </div>
           <div className="md:w-1/2 space-y-4">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">

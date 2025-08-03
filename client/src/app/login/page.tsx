@@ -19,6 +19,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { toast } from "sonner"
 
 export default function Login() {
   const router=useRouter()
@@ -34,17 +35,21 @@ export default function Login() {
     password:""
   });
 
-  const [login, {isLoading,isSuccess}]=useLoginMutation()
+  const [login, {data,error,isLoading,isSuccess}]=useLoginMutation()
 
   const handleLogin=async(e:React.FormEvent)=>{
       e.preventDefault();
      await login(formData) 
   }
   useEffect(()=>{
-    if(isSuccess){
+    if(isSuccess && data){
+      toast.success(data?.message)
       router.push('/profile')
     }
-  },[isSuccess,router])
+    if(error){
+      toast.error(error?.data?.message)
+    }
+  },[isSuccess,router,error,data])
   return (
     <div className="flex justify-center items-center h-[100vh] bg-gradient-to-r from-green-50 to-sky-100">
     <Card className="w-full max-w-sm h-fit">

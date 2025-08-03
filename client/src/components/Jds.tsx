@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { ClipboardPaste } from "lucide-react";
 import { useGetJdsQuery, useUploadJDMutation } from "@/lib/redux/api/resumeApi";
 import dayjs from "dayjs";
+import { toast } from "sonner";
 
 export default function Jds() {
   const [title, setTitle] = useState("");
@@ -23,10 +24,10 @@ export default function Jds() {
   const [jdText, setJdText] = useState("");
   const [fullJD,setFullJD]=useState('')
  const [uploadJD, { data, isSuccess, isLoading, error }] = useUploadJDMutation();
- const [message,setMessage]=useState('')
+
 const [jds, setJds] = useState<unknown[]>([]);
 
- const {data:getJdData,isSuccess:getJdSucess,error:getJdError}=useGetJdsQuery({})
+ const {data:getJdData,isSuccess:getJdSucess,error:getJdError,refetch}=useGetJdsQuery({})
 const handleUpload=async()=>{
     setFullJD(`title=${title} company=${company} jd=${jdText}`)
     await uploadJD(fullJD);
@@ -34,20 +35,18 @@ const handleUpload=async()=>{
 }
   useEffect(() => {
     if (isSuccess) {
-      setMessage(data.message);
-  
-      setTitle("");
-      setCompany("");
-      setJdText("");
+     toast.success(data.message)  
+     refetch()
+    
     } else if (error) {
-      setMessage("Something went wrong while uploading.");
+      toast.error(error?.data?.message)
     }
   }, [isSuccess, isLoading, error,data]);
   useEffect(()=>{
     if(getJdSucess&&getJdData){
         setJds(getJdData.data)
     }
-  },[getJdSucess,getJdData,getJdError])
+  },[getJdSucess,getJdData,getJdError,refetch])
 
 
 
@@ -96,15 +95,7 @@ const handleUpload=async()=>{
               >
                 {isLoading ? "Uploading..." : "Upload"}
               </Button>
-              {message && (
-                <p
-                  className={`text-sm ${
-                    isSuccess ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {message}
-                </p>
-              )}
+       
             </div>
           </DialogContent>
         </Dialog>

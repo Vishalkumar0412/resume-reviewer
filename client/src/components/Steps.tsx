@@ -1,13 +1,13 @@
 "use client"
 import React from "react";
 
-import { Lightbulb, UploadCloud, Sparkles, Download } from "lucide-react";
+import { Lightbulb, UploadCloud, Sparkles, FileSearch } from "lucide-react";
 import {motion} from 'motion/react'
 
 const steps = [
   {
     title: "Upload Resume",
-    description: "Drag & drop or import your resume in PDF or DOCX format.",
+    description: "Drag & drop or import your resume in PDF format.",
     icon: <UploadCloud size={32} className="text-indigo-600" />,
   },
   {
@@ -20,11 +20,11 @@ const steps = [
     description: "Receive AI-powered suggestions based on your target job.",
     icon: <Sparkles size={32} className="text-indigo-600" />,
   },
-  {
-    title: "Download Ready Resume",
-    description: "Polish and download your ATS-optimized professional resume.",
-    icon: <Download size={32} className="text-indigo-600" />,
-  },
+ {
+  title: "View Matching Report",
+  description: "Analyze how well your resume matches the selected job description.",
+  icon: <FileSearch size={32} className="text-indigo-600" />,
+}
 ];
 
 const container = {
