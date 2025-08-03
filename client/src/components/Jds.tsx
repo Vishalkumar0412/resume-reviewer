@@ -38,8 +38,8 @@ const handleUpload=async()=>{
      toast.success(data.message)  
      refetch()
     
-    } else if (error) {
-      toast.error(error?.data?.message)
+    } else if (error && 'data' in error) {
+      toast.error((error?.data as any)?.message)
     }
   }, [isSuccess, isLoading, error,data]);
   useEffect(()=>{

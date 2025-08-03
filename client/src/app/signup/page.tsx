@@ -19,41 +19,55 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import type { RootState } from "@/lib/redux/store"; // adjust path if needed
 
-export default function Login() {
-  const { user } = useSelector((store: any) => store.auth);
+interface SignupResponse {
+  message?: string;
+  user?: string;
+  [key: string]: any;
+}
 
-  useEffect(() => {
-    if (user) {
-      router.push("/profile");
-    }
-  }, [user]);
+export default function Signup() {
+  const router = useRouter();
 
-  const [formData, setFromData] = useState({
+  // ✅ Redux selector with proper typing
+  const user = useSelector((store: RootState) => store.auth.user);
+
+  // ✅ Form state
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const router = useRouter();
 
-  const [signup, {data, isLoading, isSuccess ,error}] = useSignupMutation();
-  console.log(isSuccess,error);
+  // ✅ Signup mutation hook
+  const [signup, { data , isLoading, isSuccess, error }] =
+    useSignupMutation();
 
-  const handleSignup = async (e: React.FormEvent) => {
+  // ✅ Push user to profile if already logged in
+  useEffect(() => {
+    if (user) {
+      router.push("/profile");
+    }
+  }, [user, router]);
+
+  // ✅ Submit handler
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await signup(formData);
+    await signup(formData);
   };
+
+  // ✅ Side effects for toast and redirect
   useEffect(() => {
     if (isSuccess && data) {
-
-      toast.success(data?.message);
+      toast.success((data as SignupResponse)?.message);
       router.push("/login");
     }
-    if(error){
-      toast.error(error?.data?.message)
+    if (error && "data" in error && (error as any)?.data?.message) {
+      toast.error((error as any).data.message);
     }
+  }, [isSuccess, error, data, router]);
 
-  }, [isSuccess,error,data]);
   return (
     <div className="flex justify-center items-center h-[100vh] bg-gradient-to-r from-green-50 to-sky-100">
       <Card className="w-full max-w-sm h-fit">
@@ -66,17 +80,18 @@ export default function Login() {
             </Link>
           </CardAction>
         </CardHeader>
+
         <form onSubmit={handleSignup}>
           <CardContent>
             <div className="flex flex-col gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Full Name</Label>
+                <Label htmlFor="fname">Full Name</Label>
                 <Input
                   id="fname"
                   type="text"
                   placeholder="Alok Mishra"
                   onChange={(e) =>
-                    setFromData({ ...formData, name: e.target.value })
+                    setFormData({ ...formData, name: e.target.value })
                   }
                   value={formData.name}
                   required
@@ -89,33 +104,32 @@ export default function Login() {
                   type="email"
                   placeholder="m@example.com"
                   onChange={(e) =>
-                    setFromData({ ...formData, email: e.target.value })
+                    setFormData({ ...formData, email: e.target.value })
                   }
                   value={formData.email}
                   required
                 />
               </div>
               <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
+                <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
                   type="password"
+                  placeholder="xyz123"
                   onChange={(e) =>
-                    setFromData({ ...formData, password: e.target.value })
+                    setFormData({ ...formData, password: e.target.value })
                   }
                   value={formData.password}
-                  placeholder="xyz123"
                   required
                 />
               </div>
             </div>
           </CardContent>
+
           <CardFooter className="flex-col gap-2 mt-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
-                <Loader2 className="h-2 w-2 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 "Signup"
               )}

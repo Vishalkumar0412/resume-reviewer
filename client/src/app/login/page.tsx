@@ -39,15 +39,23 @@ export default function Login() {
 
   const handleLogin=async(e:React.FormEvent)=>{
       e.preventDefault();
-     await login(formData) 
+
+     await login(formData)
+
   }
+
   useEffect(()=>{
+
     if(isSuccess && data){
-      toast.success(data?.message)
+      toast.success(data?.user)
       router.push('/profile')
     }
-    if(error){
-      toast.error(error?.data?.message)
+    if (error) {
+      if ('data' in error) {
+        toast.error((error?.data as any)?.message || "Login failed");
+      } else {
+        toast.error("Login failed");
+      }
     }
   },[isSuccess,router,error,data])
   return (

@@ -97,11 +97,12 @@ const Reports = () => {
         reports.find((report) => report?.id === data?.data?.id) || null
       );
     }
-    if(error){
-      toast.error(error?.data?.message);
+    if(error && 'data' in error){
+      const errorData = error.data as { message: string };
+      toast.error(errorData?.message);
     }
-  }, [isSuccess,data,refetch,reports,error]);
-
+  }, [isSuccess,data,refetch,reports,error])
+  
   useEffect(() => {
     if (reportIsSuccess && reportsData) {
       setReports(reportsData.data);

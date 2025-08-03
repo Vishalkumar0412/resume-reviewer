@@ -34,7 +34,7 @@ const Navbar = () => {
   useEffect(() => {
     if(isLoading) toast.loading("logging out....")
     if(isSuccess && data) toast.success(data?.message ||"Logout successfull" )
-    if(error) toast.error(error?.data.message || "logout failed")
+    if(error) toast.error('data' in error ? (error?.data as any)?.message || "logout failed" : "Logout failed");
       
     }, [isSuccess, error ,data, isLoading]);
   if (!isClient) return null;
