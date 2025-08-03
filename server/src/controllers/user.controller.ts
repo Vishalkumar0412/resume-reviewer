@@ -4,9 +4,10 @@ import { ApiResponse } from "../helper/types/apiResponse";
 import bcrypt from 'bcrypt'
 
 import { loginSchema, signupSchema } from "../helper/schemas/user.schema";
-import { genrateToken } from "../utills/genrateToken";
+
 import { authenticatedRequest } from "../helper/types/authenticatedRequest";
 import { parse } from "dotenv";
+import { generateToken } from "../utills/genrateToken";
 
 const prisma=new PrismaClient()
 
@@ -77,7 +78,7 @@ export const loginUser=async(req:Request , res:Response<ApiResponse>)=>{
                 success:false
             })
         }
-        genrateToken(res,user, ` welcome back ${user.name}`)
+        generateToken(res,user, ` welcome back ${user.name}`)
 
 
     } catch (error:any) {
